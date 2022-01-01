@@ -308,7 +308,7 @@ impl Game {
         // Improve framepacing on Windows
         #[cfg(target_os = "windows")]
         {
-            #[link(name = "Winmm")]
+            #[link(name = "winmm")]
             extern "system" {
                 fn timeBeginPeriod(uPeriod: u32) -> u32;
             }

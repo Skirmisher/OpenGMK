@@ -7,8 +7,6 @@ edition = "2021"
 
 [build-dependencies]
 time = { version = "0.3", features = ["std"], default-features = false }
-
-[target.'cfg(windows)'.build-dependencies]
 winres = "0.1"
 
 [dependencies]

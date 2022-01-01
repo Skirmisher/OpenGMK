@@ -46,7 +46,7 @@ fn main() -> Result<(), Box<dyn Error>> {
         .write_bindings(StructGenerator, &mut bindings)?;
 
     // WGL (Windows OpenGL) Bindings
-    if cfg!(target_os = "windows") {
+    if env::var_os("CARGO_CFG_WINDOWS").is_some() {
         let mut file = File::create(&Path::new(&out).join("wgl_bindings.rs"))?;
         Registry::new(Api::Wgl, (1, 0), Profile::Core, Fallbacks::All, [
             "WGL_ARB_create_context",
@@ -58,13 +58,7 @@ fn main() -> Result<(), Box<dyn Error>> {
     }
 
     // GLX (OpenGL Extension for X) Bindings
-    if cfg!(any(
-        target_os = "linux",
-        target_os = "dragonfly",
-        target_os = "freebsd",
-        target_os = "netbsd",
-        target_os = "openbsd",
-    )) {
+    if env::var_os("CARGO_CFG_UNIX").is_some() {
         let mut file = File::create(&Path::new(&out).join("glx_bindings.rs"))?;
         Registry::new(Api::Glx, (1, 4), Profile::Core, Fallbacks::All, [
             "GLX_ARB_create_context",
@@ -75,8 +69,7 @@ fn main() -> Result<(), Box<dyn Error>> {
     }
 
     // Windows-specific resources
-    #[cfg(target_os = "windows")]
-    {
+    if env::var_os("CARGO_CFG_WINDOWS").is_some() {
         // This code reduces size of the manifest resource. Some important notes about:
         // * Last char trickery is necessary to prevent gluing attributes.
         // * Windows XML parser doesn't understand LF line endings in manifests.

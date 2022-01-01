@@ -8,3 +8,4 @@ cmake = "0.1"
 
 [dependencies]
 chlorine = "1.0"
+link-cplusplus = "1.0"
